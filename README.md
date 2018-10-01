@@ -1,20 +1,20 @@
 # Rect
 Draw Rectangles in QT
 
-# How to Install
-* Download the Repository
+# How to install
+* Download the repository
 * Install [Geometry](https://github.com/KROIA/Geometry) 
 * Unzip it to your favorite DLL build destination
 ***
 ***
-# Change the Buildpath
-* Go to Settings:
+# Change the buildpath
+* Go to settings:
 QT-Creator->Tools->Options->Build & Run
 and change the **Default build directory:** to
 `
 ../%{JS: Util.asciify("build-%{CurrentBuild:Name}")}
 `
-If you already have this Settings, you can skip the following step.
+If you already have these settings, you can skip the following step.
 * Save the settings, close the project and **delete** the **.user** file.
 ***
 # How to build
