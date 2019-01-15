@@ -1,12 +1,20 @@
 #ifndef RECT_H
 #define RECT_H
 //Autor                 Alex Krieg
-//Datum                 01.10.2018
-#define RECT_VERSION   "00.00.00"
+//Datum                 15.01.2019
+#define RECT_VERSION   "00.00.01"
 
 
 #include "rect_global.h"
 #include <geometry.h>
+
+enum RotationPos{
+    middle = 0,
+    cornerUL = 1,
+    cornerUR = 2,
+    cornerDL = 3,
+    cornerDR = 4
+};
 
 class RECTSHARED_EXPORT Rect : private QObject
 {
@@ -19,8 +27,8 @@ class RECTSHARED_EXPORT Rect : private QObject
         QColor      color();
         void        frameColor(QColor col);
         QColor      frameColor();
-        void        frameSize(unsigned int size);
-        unsigned int frameSize();
+        void        frameSize(int size);
+        int         frameSize();
         void        begin(QPoint pos);
         QPoint      begin();
         void        end(QPoint pos);
@@ -29,6 +37,7 @@ class RECTSHARED_EXPORT Rect : private QObject
         void        angle(float degree);
         float       angle();
         void        rotate(float deltaDegree);
+        void        rotatePos(int rotPos);
         void        drawPos(QPoint pos);
         QPoint      drawPos();
 
@@ -36,6 +45,8 @@ class RECTSHARED_EXPORT Rect : private QObject
         bool        frame();
         void        infill(bool enable);
         bool        infill();
+
+
 
     signals:
 
@@ -49,12 +60,13 @@ class RECTSHARED_EXPORT Rect : private QObject
         QPoint      _posA;
         QPoint      _posB;
         QPoint      _drawPos;
-        unsigned int _frameSize;
+        int         _frameSize;
         geometry::Angle _angle;
         QColor      _color;
         QColor      _frameColor;
         bool        _frameEnable;
         bool        _infillEnable;
+        int         _rotationPos;
 };
 
 #endif // RECT_H
