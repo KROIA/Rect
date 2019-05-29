@@ -1,8 +1,8 @@
 #ifndef RECT_H
 #define RECT_H
 //Autor                 Alex Krieg
-//Datum                 15.01.2019
-#define RECT_VERSION   "00.00.01"
+//Datum                 28.05.2019
+#define RECT_VERSION   "00.01.00"
 
 
 #include "rect_global.h"
@@ -38,6 +38,8 @@ class RECTSHARED_EXPORT Rect : private QObject
         float       angle();
         void        rotate(float deltaDegree);
         void        rotatePos(int rotPos);
+        void        rotationPoint(QPoint rotationPoint);
+        QPoint      rotationPoint();
         void        drawPos(QPoint pos);
         QPoint      drawPos();
 
@@ -46,7 +48,8 @@ class RECTSHARED_EXPORT Rect : private QObject
         void        infill(bool enable);
         bool        infill();
 
-
+        void        middlePoint(QPointF middlePoint);
+        QPointF     middlePoint();
 
     signals:
 
@@ -67,6 +70,10 @@ class RECTSHARED_EXPORT Rect : private QObject
         bool        _frameEnable;
         bool        _infillEnable;
         int         _rotationPos;
+
+        QPointF     _middlePoint;
+        QPoint      _middlePointOffset;
+        QPoint      _rotationPoint;
 };
 
 #endif // RECT_H

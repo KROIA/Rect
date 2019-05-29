@@ -1,6 +1,6 @@
 // Autor    Alex Krieg
-// Version  00.00.01
-// Datum    15.01.2019
+// Version  00.01.00
+// Datum    28.05.2019
 
 #include "rect.h"
 
@@ -14,6 +14,8 @@ Rect::Rect(QPainter *p)
     end(QPoint(100,100));
     angle(0);
     rotatePos(RotationPos::middle);
+    rotationPoint(QPoint(0,0));
+    middlePoint(QPointF(0,0));
     drawPos(QPoint(0,0));
     frame(true);
     infill(true);
@@ -92,6 +94,14 @@ void   Rect::rotatePos(int rotPos)
     }
     _rotationPos = rotPos;
 }
+void   Rect::rotationPoint(QPoint rotationPoint)
+{
+    _rotationPoint = rotationPoint;
+}
+QPoint Rect::rotationPoint()
+{
+    return _rotationPoint;
+}
 void   Rect::drawPos(QPoint pos)
 {
     _drawPos = pos;
@@ -164,13 +174,32 @@ void Rect::draw()
               break;
           }
       }
-      painter->translate(QPoint(_drawPos.x() + rotOffset.x(),_drawPos.y()+rotOffset.y()));
-      painter->rotate(qreal(_angle.degree()));
-      painter->translate(QPoint(-rotOffset.x(),-rotOffset.y()));
+      //painter->translate(QPoint(/*_drawPos.x() + */rotOffset.x(),/*_drawPos.y()+*/rotOffset.y()));
+      //painter->rotate(qreal(_angle.degree()));
+      painter->translate(QPoint(/*rotOffset.x()+*/_drawPos.x(),/*rotOffset.y()+*/_drawPos.y()));
+
+      //painter->translate(QPoint(-rotOffset.x(),-rotOffset.y()));
+      //painter->translate(QPoint(_drawPos.x() - rotOffset.x(),_drawPos.y()-rotOffset.y()));
       if(_frameEnable || _infillEnable)
       {
+        painter->rotate(-qreal(_angle.degree()));
+        painter->translate(QPoint(-rotOffset.x()+_rotationPoint.x()-_middlePointOffset.x(),-rotOffset.y()+_rotationPoint.y()-_middlePointOffset.y()));
         painter->drawRect(rect);
+        painter->translate(QPoint(rotOffset.x()-_rotationPoint.x()+_middlePointOffset.x(),rotOffset.y()-_rotationPoint.y()+_middlePointOffset.x()));
+        painter->rotate(qreal(_angle.degree()));
       }
-      painter->rotate(-qreal(_angle.degree()));
-      painter->translate(QPoint(-_drawPos.x(),-_drawPos.y()));
+      painter->translate(QPoint(/*_drawPos.x() + *//*-rotOffset.x()*/-_drawPos.x(),/*_drawPos.y()+*//*-rotOffset.y()*/-_drawPos.y()));
+
+      //painter->rotate(-qreal(_angle.degree()));
+      //painter->translate(QPoint(-_drawPos.x(),-_drawPos.y()));
+}
+void        Rect::middlePoint(QPointF middlePoint)
+{
+    _middlePoint = middlePoint;
+
+    _middlePointOffset = QPoint(_middlePoint.x()*(float)(end().x()-begin().x()),_middlePoint.y()*(float)(end().y()-begin().y()));
+}
+QPointF     Rect::middlePoint()
+{
+    return _middlePoint;
 }
